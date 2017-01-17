@@ -97,12 +97,14 @@
   function clearNestedEvents(model) {
     _(model.relations).each(function (relation) {
       var nested = model.get(relation.key)
-
       model.stopListening(nested)
-      nested.off('remove', nestedModelRemoved, nested)
 
-      if (nested.deletedModels) {
-        nested.deletedModels.reset()
+      if (nested) {
+        nested.off('remove', nestedModelRemoved, nested)
+
+        if (nested.deletedModels) {
+          nested.deletedModels.reset()
+        }
       }
     }, model)
   }
